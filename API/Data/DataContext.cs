@@ -12,7 +12,7 @@ namespace API.Data
         public DataContext(DbContextOptions options) : base(options)
         {
         }
-
+        // Creating User property of type DbSet<AppUser>, DbSet represents a table in the database
         public DbSet<AppUser> Users { get; set; }
     }
 }
