@@ -54,6 +54,7 @@ namespace API.Controllers
         }
         
         [HttpPost("login")]
+        //this method receives an object of type LoginDTo which is a model in the client side
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users
