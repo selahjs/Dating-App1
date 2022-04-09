@@ -1,22 +1,27 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">Dating App</a>
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">Dating App</a>
 
-        <!-- this ul will only appear when the user loggedIn = true-->
-        <ul *ngIf="accountService.currentUser$ | async" class="navbar-nav me-auto mb-2 mb-md-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Matches</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Lists</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Messages</a>
-          </li>
+        <!-- this ul will only appear when the user loggedIn = true
+        -->
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <ng-container *ngIf="accountService.currentUser$ | async" >
+            <li class="nav-item" >
+              <!-- the routerLinkActive changes the class of the anchor to active when selected -->
+              <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
+            </li>
+          </ng-container>
+          
         </ul>
         <!--the dropdown is a directive and *dropdown is a structural directive-->
-        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-          <a class="dropdown-toggle text-light" dropdownToggle>Welcome User</a>
+        <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+          <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.username | titlecase}}</a>
           <div class="dropdown-menu mt-3" *dropdownMenu>
             <a class="dropdown-item">Edit Profile</a>
             <div class="dropdwon-divider"></div>
@@ -43,6 +48,6 @@
           placeholder="password">
           <button class="btn btn-outline-success" type="submit">Login</button>
         </form>
-      </div>
+    </div>
     
   </nav>
