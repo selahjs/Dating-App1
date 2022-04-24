@@ -19,6 +19,7 @@ namespace API
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // It is also a dependancy injection
         public void ConfigureServices(IServiceCollection services)
         {
             //We don't need the ITokenService interface, We use it for simplifying testing and it is also a Best practice
