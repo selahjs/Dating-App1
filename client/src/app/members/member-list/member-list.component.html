@@ -1,1 +1,7 @@
-<p>member-list works!</p>
+<div class="row">
+    <div *ngFor="let member of members" class="col-2">
+        <app-member-card [member]="member"></app-member-card>
+        <!-- you have to use the properties spelling correclty otherwise eg
+        I used member.KnownAs instead of member.knownAs with samll k -->
+    </div>
+</div>
