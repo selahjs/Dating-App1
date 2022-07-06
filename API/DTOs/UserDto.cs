@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace API.DTOs
 {
-    public class UserDto
+    public class UserDto //this class is sent back to the user when logged in
     {
         public string Username { get; set; }
         public string Token { get; set; }
         public string PhotoUrl { get; set; }
         public string KnownAs { get; set; }
+        public string Gender { get; set; }
     }
 }

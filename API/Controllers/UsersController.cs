@@ -7,6 +7,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extentions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -36,9 +37,22 @@ namespace API.Controllers
         //-which returns an IEnumerator interface. This allows read-only access to a collection (lists in an array or from database)
         //-then a collection that implements IEnumerable can be used with a for-each statement.
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
+        // the [FromQuery] tells the method we are getting our input from the url query
         {
-            var users = await _userRepository.GetMembersAsync();
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            userParams.CurrentUsername = user.UserName;
+
+            if(string.IsNullOrEmpty(userParams.Gender)){
+                userParams.Gender = user.Gender == "male"? "female" : "male" ; 
+                //we are setting the gender opposite of the current user. at the same time the current user will not be visible because
+                //we set the returned user an opposite gender... check the userrepositry class for follow-up
+            }
+
+            var users = await _userRepository.GetMembersAsync(userParams);
+
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, 
+                users.TotalCount, users.TotalPages);
             
             return Ok(users);
         }
