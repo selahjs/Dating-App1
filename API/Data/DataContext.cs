@@ -14,5 +14,30 @@ namespace API.Data
         }
         // Creating User property of type AppUser, DbSet represents a table in the database
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<UserLike> Likes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder){
+            //we are trying to further configure our likes entity
+            base.OnModelCreating(builder);
+
+            builder.Entity<UserLike>()
+                .HasKey(k=> new {k.SourceUserId, k.LikedUserId}); //this table will have a primary key of combination source and liked user id
+            //then we configure the many to many relationship 
+            //a source user can have many liked users
+            builder.Entity<UserLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedUsers)
+                .HasForeignKey(s=> s.SourceUserId)
+                .OnDelete(DeleteBehavior.Cascade); //when we delete the user we also delete the related entity(the like of user he liked)
+            // a Liked user can be liked by many user
+            
+            builder.Entity<UserLike>()
+                .HasOne(s => s.LikedUser)
+                .WithMany(l => l.LikedByUsers)
+                .HasForeignKey(l=> l.LikedUserId)
+                .OnDelete(DeleteBehavior.Cascade); //when we delete the user we also delete the related entity(the like of user he liked)
+                
+        }
+
     }
 }
