@@ -49,6 +49,11 @@ export class AccountService {
   }
 
   setCurrentUser(user: User){
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role;
+    //when we get back the token from the server the role comes either in array(for memebers with multiple roles) or just a string(for memebers with single role)
+    //either way we save it as an array in the client
+    Array.isArray(roles)? user.roles = roles: user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
@@ -56,6 +61,13 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  getDecodedToken(token){
+    return JSON.parse(atob(token.split(".")[1])); 
+    //the atob method will convert the token to string(the payload is not encrypted soo..)
+    //the token comes in 3 part object header,payload & signature. the part we are interested in the second index 
+    //...ie z payload because it containes our role
   }
 
 }

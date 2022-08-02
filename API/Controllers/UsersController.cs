@@ -56,7 +56,6 @@ namespace API.Controllers
             
             return Ok(users);
         }
-
         [HttpGet("{username}", Name = "GetUser")] //"username" is a root parameter
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
