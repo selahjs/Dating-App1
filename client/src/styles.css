@@ -44,3 +44,8 @@
     padding: 15px 0;
   }
   
+  body{
+    background: url('assets/couple-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}

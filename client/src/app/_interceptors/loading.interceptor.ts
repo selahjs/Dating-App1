@@ -17,7 +17,6 @@ export class LoadingInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.busyService.busy();//when sending a request the busy spinner is active and stops when we get a response
     return next.handle(request).pipe(
-      delay(1000),
       finalize(()=>{
         this.busyService.idle();
       })

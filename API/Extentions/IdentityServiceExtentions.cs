@@ -36,6 +36,25 @@ namespace API.Extentions
                     ValidateIssuer = false,
                     ValidateAudience = false,
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"]; // to access signalR hub
+
+                        var path = context.HttpContext.Request.Path; // the request path sould only be for signalr hub
+
+                        if(!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+
+
+                    }
+                };
             });
 
             services.AddAuthorization(opt => 

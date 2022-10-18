@@ -7,7 +7,7 @@ namespace API.Helpers
 {
     public class CloudinarySettings
     {
-        //this class helps as get our configuration files from Api.csproj
+        //this class helps as get our configuration files from appsettings.json
         public string CloudName { get; set; }
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
