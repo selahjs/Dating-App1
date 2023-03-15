@@ -11,4 +11,5 @@ namespace API.Controllers
                 "wwwroot", "index.html"), "text/HTML");
         }
     }
+    
 }

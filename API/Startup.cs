@@ -68,6 +68,7 @@ namespace API
                 endpoints.MapHub<PresenceHub>("hubs/presence"); //separate end point from controllers as it uses diffrent protocol
                 endpoints.MapHub<MessageHub>("hubs/message");
                 endpoints.MapFallbackToController("Index", "Fallback");
+                
             });
         }
     }
